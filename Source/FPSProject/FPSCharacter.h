@@ -49,4 +49,16 @@ public:
     UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
     USkeletalMeshComponent* FPSMesh;
 
+    // Function that handles firing projectiles. (発射物をアクティベートする関数)
+    UFUNCTION()
+    void Fire();
+
+    // Gun muzzle's offset from the camera location. (カメラ位置から銃口のオフセット)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+    FVector MuzzleOffset;
+
+    // Projectile class to spawn. (スポーンする Projectile クラス)
+    UPROPERTY(EditDefaultsOnly, Category = Projectile)
+    TSubclassOf<class AFPSProjectile> ProjectileClass;
+
 };
