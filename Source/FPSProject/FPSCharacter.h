@@ -15,6 +15,7 @@ public:
 	// Sets default values for this character's properties
 	AFPSCharacter();
 
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -33,5 +34,13 @@ public:
 
 	UFUNCTION()
 	void MoveRight(float Value);
+
+	// Sets jump flag when key is pressed (キー押下時のジャンプフラグを設定) 
+	UFUNCTION()
+	void StartJump();
+
+	// Clears jump flag when key is released (キー解放時のジャンプフラグをクリア)
+	UFUNCTION()
+	void StopJump();
 
 };

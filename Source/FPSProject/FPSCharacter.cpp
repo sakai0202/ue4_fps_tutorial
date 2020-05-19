@@ -42,6 +42,10 @@ void AFPSCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 	// Set up "look" bindings. (look のバインディングをセットアップ) 
 	PlayerInputComponent->BindAxis("Turn", this, &AFPSCharacter::AddControllerYawInput);
 	PlayerInputComponent->BindAxis("LookUp", this, &AFPSCharacter::AddControllerPitchInput);
+
+	// Set up "action" bindings. (アクションのバインディングをセットアップ) 
+	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AFPSCharacter::StartJump);
+	PlayerInputComponent->BindAction("Jump", IE_Released, this, &AFPSCharacter::StopJump);
 }
 
 
@@ -57,4 +61,14 @@ void AFPSCharacter::MoveRight(float Value)
 	// Find out which way is "forward" and record that the player wants to move that way. (右方向を確認し、プレイヤーがそちらの方向に移動するように記録) 
 	FVector Direction = FRotationMatrix(Controller->GetControlRotation()).GetScaledAxis(EAxis::Y);
 	AddMovementInput(Direction, Value);
+}
+
+void AFPSCharacter::StartJump()
+{
+	bPressedJump = true;
+}
+void AFPSCharacter::StopJump()
+
+{
+	bPressedJump = false;
 }
