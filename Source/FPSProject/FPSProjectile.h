@@ -35,4 +35,8 @@ public:
 
 	// Function that initializes the projectile's velocity in the shoot direction. (発射方向に発射物のべロシティを初期化する関数)
 	void FireInDirection(const FVector& ShootDirection);
+
+	// Function that is called when the projectile hits something. (発射物が何かにぶつかると呼び出される関数)
+	UFUNCTION()
+	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
 };
