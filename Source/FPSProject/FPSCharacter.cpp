@@ -4,6 +4,8 @@
 #include "FPSCharacter.h"
 #include "Components/CapsuleComponent.h" 
 
+//https://forums.unrealengine.com/development-discussion/c-gameplay-programming/1688235-how-to-attach-a-ucameracomponent-to-a-capsule
+
 // Sets default values (デフォルト値を設定) 
 AFPSCharacter::AFPSCharacter()
 {
@@ -18,11 +20,27 @@ AFPSCharacter::AFPSCharacter()
     FPSCameraComponent->SetRelativeLocation(FVector(0.0f, 0.0f, 50.0f + BaseEyeHeight));
     // Allow the pawn to control camera rotation. (ポーンがカメラの回転を制御できるようにします)
     FPSCameraComponent->bUsePawnControlRotation = true;
+
+
+    // Create a first person mesh component for the owning player. (所有しているプレイヤーのために一人称メッシュを作成) 
+    FPSMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("FirstPersonMesh"));
+    // Only the owning player sees this mesh. (このメッシュは所有しているプレイヤーだけから見えます)
+    FPSMesh->SetOnlyOwnerSee(true);
+    // Attach the FPS mesh to the FPS camera. (FPS メッシュを FPS カメラにアタッチします)
+    FPSMesh->SetupAttachment(FPSCameraComponent);
+    // Disable some environmental shadowing to preserve the illusion of having a single mesh. (一部の背景のシャドウイングを無効にして、ひとつのメッシュを持っているという錯覚を維持します) 
+    FPSMesh->bCastDynamicShadow = false;
+    FPSMesh->CastShadow = false;
+
+    // The owning player doesn't see the regular (third-person) body mesh. (所有しているプレイヤーは、通常の (三人称視点の) ボディ メッシュは見えません) 
+    GetMesh()->SetOwnerNoSee(true);
+
 }
 
 // Called when the game starts or when spawned (ゲーム開始時またはスポーン時に呼び出される)
 void AFPSCharacter::BeginPlay()
-{
+{    
+
     Super::BeginPlay();
 
     if (GEngine)

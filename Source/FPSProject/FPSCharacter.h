@@ -44,4 +44,9 @@ public:
     // FPS camera (FPS カメラ)
     UPROPERTY(EditAnywhere)
     UCameraComponent* FPSCameraComponent;
+
+    // First-person mesh (arms), visible only to the owning player. (一人称メッシュ (腕)、所有しているプレイヤーにのみ見えます) 
+    UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
+    USkeletalMeshComponent* FPSMesh;
+
 };
