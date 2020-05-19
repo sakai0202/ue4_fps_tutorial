@@ -37,10 +37,13 @@ void AFPSCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 	// Set up "movement" bindings. (移動のバインディングをセットアップ) 
-
 	PlayerInputComponent->BindAxis("MoveForward", this, &AFPSCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AFPSCharacter::MoveRight);
+	// Set up "look" bindings. (look のバインディングをセットアップ) 
+	PlayerInputComponent->BindAxis("Turn", this, &AFPSCharacter::AddControllerYawInput);
+	PlayerInputComponent->BindAxis("LookUp", this, &AFPSCharacter::AddControllerPitchInput);
 }
+
 
 void AFPSCharacter::MoveForward(float Value)
 {
