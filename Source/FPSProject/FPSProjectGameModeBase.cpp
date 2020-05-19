@@ -1,8 +1,6 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
-
 #include "FPSProject.h"
-
 #include "FPSProjectGameModeBase.h"
 
 void AFPSProjectGameModeBase::StartPlay()
