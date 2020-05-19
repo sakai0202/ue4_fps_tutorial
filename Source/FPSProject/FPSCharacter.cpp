@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings. (Project Settings の Description ページに著作権情報を入力してください) 
 
 #include "FPSProject.h"
+#include "FPSProjectile.h"
 #include "FPSCharacter.h"
 #include "Components/CapsuleComponent.h" 
 
@@ -103,4 +104,33 @@ void AFPSCharacter::StopJump()
 
 void AFPSCharacter::Fire()
 {
+    // Attempt to fire a projectile. (発射物の発射をアクティベートしようとします)
+    if (ProjectileClass)
+    {
+        // Get the camera transform. (カメラのトランスフォームを取得)
+        FVector CameraLocation;
+        FRotator CameraRotation;
+        GetActorEyesViewPoint(CameraLocation, CameraRotation);
+
+        // Transform MuzzleOffset from camera space to world space (カメラ空間からワールド空間に MuzzleOffset をトランスフォーム)
+        FVector MuzzleLocation = CameraLocation + FTransform(CameraRotation).TransformVector(MuzzleOffset);
+        FRotator MuzzleRotation = CameraRotation;
+        // Skew the aim to be slightly upwards. (照準を若干上方向に傾斜させます) 
+        MuzzleRotation.Pitch += 10.0f;
+        UWorld* World = GetWorld();
+        if (World)
+        {
+            FActorSpawnParameters SpawnParams;
+            SpawnParams.Owner = this;
+            SpawnParams.Instigator = GetInstigator();
+            // Spawn the projectile at the muzzle. (銃口で発射物をスポーンします)
+            AFPSProjectile* Projectile = World->SpawnActor<AFPSProjectile>(ProjectileClass, MuzzleLocation, MuzzleRotation, SpawnParams);
+            if (Projectile)
+            {
+                // Set the projectile's initial trajectory. (発射物の初期べロシティを設定) 
+                FVector LaunchDirection = MuzzleRotation.Vector();
+                Projectile->FireInDirection(LaunchDirection);
+            }
+        }
+    }
 }
