@@ -11,6 +11,9 @@ AFPSProjectile::AFPSProjectile()
 
 	// Use a sphere as a simple collision representation (簡易なコリジョン表現に球体を使用)
 	CollisionComponent = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComponent"));
+
+	CollisionComponent->BodyInstance.SetCollisionProfileName(TEXT("Projectile"));
+
 	// Set the sphere's collision radius. (球体のコリジョン半径を設定します)
 	CollisionComponent->InitSphereRadius(15.0f);
 	// Set the root component to be the collision component. (ルート コンポーネントを collision コンポーネントに設定します)
@@ -24,6 +27,9 @@ AFPSProjectile::AFPSProjectile()
 	ProjectileMovementComponent->bRotationFollowsVelocity = true;
 	ProjectileMovementComponent->bShouldBounce = true;
 	ProjectileMovementComponent->Bounciness = 0.3f;
+
+	// Die after 3 seconds. (3 秒後に消滅)
+	InitialLifeSpan = 3.0f;
 
 }
 
